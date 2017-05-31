@@ -3,6 +3,7 @@ package ru.splat.controller;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,11 +17,9 @@ public class MainController {
     Logger logger = Logger.getLogger(MainController.class);
 
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView main() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("index");
+    @GetMapping(value = "/")
+    public String main() {
         logger.info("Go");
-        return modelAndView;
+        return "index";
     }
 }
