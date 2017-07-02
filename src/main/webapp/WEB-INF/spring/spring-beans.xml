@@ -5,6 +5,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 ">
 
-    <bean id="ammountDAOPostgres" class="ru.splat.dao.AmountDAOPostgres"/>
-    <bean id="accountService" class="ru.splat.service.AccountServiceImpl"/>
+    <bean id="nodeDAOPostgres" class="ru.splat.dao.NodeDAOPostgres"/>
+    <bean id="nodeService" class="ru.splat.service.NodeServiceImpl"/>
 </beans>
