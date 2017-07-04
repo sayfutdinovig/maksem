@@ -2,7 +2,6 @@ package ru.splat.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +32,7 @@ public class MainController {
         return nodeService.getRoot();
     }
 
+
     @GetMapping("/node/{id}")
     public @ResponseBody List<Node> getChildNodes(@PathVariable("id") final long id)
     {
@@ -41,10 +41,24 @@ public class MainController {
 
 
     @PostMapping("/node")
-    public @ResponseBody Boolean addNode(@RequestBody final Node node)
+    public @ResponseBody long addNode(@RequestBody final Node node)
+    {
+        return nodeService.addNode(node);
+    }
+
+
+    @PostMapping("/delete_node")
+    public @ResponseBody boolean deleteNodes(@RequestParam("id") final Integer id)
+    {
+        final int l = 44;
+        return nodeService.deleteNodes(l);
+    }
+
+
+    @PostMapping("rename_node")
+    public @ResponseBody boolean renameNode(@RequestBody final Node node)
     {
         System.out.println(node);
-       // return nodeService.addNode(node);
-        return true;
+        return nodeService.renameNode(node);
     }
 }

@@ -23,19 +23,20 @@
 
 
  <ul id="root">
-   <li class = "close-catalog" >
-     ${root.name}
-     <div class = "dropdown" >
-       <a href = "#" class = "dropdown-toggle-js" data-toggle = "dropdown" >
-         Edit
-         <b class = "caret" > </b>
-       </a>
-       <ul class = "dropdown-menu" >
-         <li> <a href = "#" class = "btn btn-lg btn-success" data-toggle = "modal" data-target = "#basicModal"> Add </a> </li>
-         <li> <a href = "#"> Rename </a> </li>
-         <li> <a href = "#"> Delete </a> </li>
-       </ul>
-     </div></li>
+     <li id="${root.id}" class = "close-catalog">
+         ${root.name}
+         <div class = "dropdown" >
+             <a href = "#" class = "dropdown-toggle-js" data-toggle = "dropdown" >
+                 Edit
+                 <b class = "caret" > </b>
+             </a>
+             <ul class = "dropdown-menu" node-id="${root.id}" node-name="${root.name}" node-parentId="${root.parentId}">
+                 <li class="add-node"> <a href = "#" class = "btn btn-lg btn-success" data-toggle = "modal" data-target = "#basicModal"> Add </a> </li>
+                 <li class="rename-node"> <a href = "#" class = "btn btn-lg btn-success" data-toggle = "modal" data-target ="#basicRenameModal"> Rename </a> </li>
+
+             </ul>
+         </div>
+     </li>
  </ul>
 
  <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
@@ -46,17 +47,41 @@
     </div>
 
 
-    <form id="form">
-        <input name="name" type="text" value="" required/>
-    <input name="id" type="hidden" value ="${root.id}" />
+    <form class="form-add">
+        <input name="name" type="text" required/>
+        <input name="id" type="hidden" value ="" />
+
         <div class="modal-footer">
-       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Add node</button>
-    </div>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary"  data-dismiss="modal">Add node</button>
+        </div>
     </form>
     </div>
     </div>
     </div>
+
+
+ <div class="modal fade" id="basicRenameModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+     <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-body">
+                 <h3>Please write </h3>
+             </div>
+
+
+             <form class="form-rename">
+                 <input name="name" type="text" value="" required/>
+                 <input name="id" type="hidden" value ="" />
+
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     <button type="submit" class="btn btn-primary"  >Rename node</button>
+                 </div>
+             </form>
+         </div>
+     </div>
+ </div>
+
 
 
   </body>

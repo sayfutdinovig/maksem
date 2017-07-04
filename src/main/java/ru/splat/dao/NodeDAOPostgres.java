@@ -1,11 +1,20 @@
 package ru.splat.dao;
 
 
+import jdk.jfr.events.ThrowablesEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.transaction.annotation.Transactional;
 import ru.splat.model.Node;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,10 +53,35 @@ public class NodeDAOPostgres implements NodeDAO
 
 
     @Override
-    public boolean addNode(Node node)
+    public long addNode(Node node)
     {
         final String sql = "INSERT INTO node (name, parent_id) VALUES (?, ?) ";
+        final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
-        return (jdbcTemplate.update(sql, node.getName(), node.getParentId()) > 0);
+        jdbcTemplate.update(con -> {
+            PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, node.getName());
+            statement.setLong(2, node.getId());
+            return statement;
+        }, keyHolder);
+
+        return (long) keyHolder.getKeys().get("id");
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteNodes(int id)
+    {
+        final String delete = "UPDATE node SET parent_id = -1 WHERE id = ? ";
+        final String insert = "INSERT INTO delete_nodes (id) VALUES (?) ";
+        if (jdbcTemplate.update(delete, id) < 1);
+        return (jdbcTemplate.update(insert, id) > 0);
+    }
+
+    @Override
+    public boolean renameNode(final Node node)
+    {
+        final String sql = "UPDATE node SET name = ? WHERE id = ? ";
+        return (jdbcTemplate.update(sql, node.getName(), node.getId()) > 0);
     }
 }

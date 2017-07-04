@@ -14,7 +14,7 @@ public class NodeServiceImpl implements NodeService
 
 
     @Override
-    public List<Node> getChildNodes(long id)
+    public List<Node> getChildNodes(final long id)
     {
         return nodeDAO.getChildNodes(id);
     }
@@ -28,8 +28,22 @@ public class NodeServiceImpl implements NodeService
 
 
     @Override
-    public boolean addNode(Node node)
+    public long addNode(final Node node)
     {
         return nodeDAO.addNode(node);
+    }
+
+
+    @Override
+    public boolean deleteNodes(final int id)
+    {
+        return nodeDAO.deleteNodes(id);
+    }
+
+
+    @Override
+    public boolean renameNode(final Node node)
+    {
+        return nodeDAO.renameNode(node);
     }
 }

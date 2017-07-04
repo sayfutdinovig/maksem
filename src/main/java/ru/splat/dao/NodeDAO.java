@@ -13,5 +13,11 @@ public interface NodeDAO
     Node getRoot();
 
 
-    boolean addNode(final Node node);
+    long addNode(final Node node);
+
+
+    boolean deleteNodes(final int id);
+
+
+    boolean renameNode(final Node node);
 }
