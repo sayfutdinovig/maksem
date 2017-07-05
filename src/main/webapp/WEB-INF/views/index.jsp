@@ -4,16 +4,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <script src="<c:url value="/resources/js/jquery-3.2.1.min.js"/>" type="text/javascript"></script>
-<script src="<c:url value="/resources/js/react/react.js"/>" type="text/javascript"></script>
-<script src="<c:url value="/resources/js/react/react-dom.js"/>" type="text/javascript"></script>
-<script src="<c:url value="/resources/js/react/react-dom-server.js"/>" type="text/javascript"></script>
-<script src="<c:url value="/resources/js/react/react-with-addons.js"/>" type="text/javascript"></script>
-<script src="<c:url value="/resources/js/babel/browser.min.js"/>" type="text/javascript"></script>
-<script src="<c:url value="/resources/js/bootstrap/bootstrap.js"/>" type="text/javascript"></script>
+<script src="<c:url value="/resources/js/bootstrap.js"/>" type="text/javascript"></script>
 <script src="<c:url value="/resources/js/app.js"/>" type="text/javascript"></script>
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/style.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bootstrap.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bootstrap-theme.css"/>">
 
 <html>
   <head>
@@ -21,10 +17,11 @@
   </head>
   <body>
 
-
  <ul id="root">
-     <li id="${root.id}" class = "close-catalog">
-         ${root.name}
+     <li id="${root.id}">
+         <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+         <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
+         <span class="node-name"> ${root.name} </span>
          <div class = "dropdown" >
              <a href = "#" class = "dropdown-toggle-js" data-toggle = "dropdown" >
                  Edit
@@ -36,6 +33,9 @@
 
              </ul>
          </div>
+         <ul class="children">
+
+         </ul>
      </li>
  </ul>
 
@@ -53,7 +53,7 @@
 
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary"  data-dismiss="modal">Add node</button>
+            <button type="submit" class="btn btn-primary" >Add node</button>
         </div>
     </form>
     </div>

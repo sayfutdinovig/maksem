@@ -37,7 +37,7 @@ public class NodeDAOPostgres implements NodeDAO
     @Override
     public List<Node> getChildNodes(final long id)
     {
-        final String sql = "SELECT * FROM node WHERE id = ?";
+        final String sql = "SELECT * FROM node WHERE parent_id = ?";
 
         return jdbcTemplate.query(sql, rm, Collections.singleton(id).toArray());
     }
@@ -74,7 +74,7 @@ public class NodeDAOPostgres implements NodeDAO
     {
         final String delete = "UPDATE node SET parent_id = -1 WHERE id = ? ";
         final String insert = "INSERT INTO delete_nodes (id) VALUES (?) ";
-        if (jdbcTemplate.update(delete, id) < 1);
+        if (jdbcTemplate.update(delete, id) < 1) return false;
         return (jdbcTemplate.update(insert, id) > 0);
     }
 

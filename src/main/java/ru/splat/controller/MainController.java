@@ -33,8 +33,8 @@ public class MainController {
     }
 
 
-    @GetMapping("/node/{id}")
-    public @ResponseBody List<Node> getChildNodes(@PathVariable("id") final long id)
+    @GetMapping("/node")
+    public @ResponseBody List<Node> getChildNodes(@RequestParam("id") final long id)
     {
         return nodeService.getChildNodes(id);
     }
@@ -50,12 +50,11 @@ public class MainController {
     @PostMapping("/delete_node")
     public @ResponseBody boolean deleteNodes(@RequestParam("id") final Integer id)
     {
-        final int l = 44;
-        return nodeService.deleteNodes(l);
+        return nodeService.deleteNodes(id);
     }
 
 
-    @PostMapping("rename_node")
+    @PostMapping("/rename_node")
     public @ResponseBody boolean renameNode(@RequestBody final Node node)
     {
         System.out.println(node);

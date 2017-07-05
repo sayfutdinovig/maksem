@@ -1,17 +1,5 @@
 $(document).ready(function() {
-    $.ajax({
-        type: "GET",
-        url: "/root",
-        dataType: 'json',
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
 
-            alert(data.name);
-        },
-        error: function (error) {
-
-        }
-    });
 
     $(".dropdown-toggle-js").dropdown();
 
@@ -26,8 +14,9 @@ $(document).ready(function() {
             data: JSON.stringify(object),
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-
-                $("#"+object.id).append(format(data, object.name, object.parentId));
+                if ($("#" + object.id).children(".children").find('li').length > 0) {
+                    $("#" + object.id).children(".children").append(format(data, object.name, object.parentId));
+                }
             }
         });
     });
@@ -36,6 +25,43 @@ $(document).ready(function() {
         $('input[name=id]').val($(e.currentTarget).attr("node-id"));
 
     });
+
+    $(document).on("click", ".glyphicon-menu-right", function (e) {
+
+        var param = $(e.currentTarget).parent().attr("id");
+        $.ajax({
+            type: "GET",
+            url: "/node",
+            data:{id:param},
+            success: function (data) {
+                data.forEach(function(item, i, arr) {
+                    $("#" + param).children(".glyphicon-menu-right").addClass('glyphicon-menu-down');
+                    $("#" + param).children(".glyphicon-menu-right").removeClass('glyphicon-menu-right');
+                    $("#" + param).children(".glyphicon-folder-close").addClass('glyphicon-folder-open');
+                    $("#" + param).children(".glyphicon-folder-close").removeClass('glyphicon-folder-close');
+                    $("#" + param).children(".children").append(format(item.id, item.name, item.parentId));
+                })
+            }
+        });
+
+    });
+
+
+    $(document).on("click", ".glyphicon-menu-down", function (e) {
+
+        var param = $(e.currentTarget).parent().attr("id");
+
+        $("#" + param).children(".glyphicon-menu-down").addClass('glyphicon-menu-right');
+        $("#" + param).children(".glyphicon-menu-down").removeClass('glyphicon-menu-down');
+        $("#" + param).children(".glyphicon-folder-open").addClass('glyphicon-folder-close');
+        $("#" + param).children(".glyphicon-folder-open").removeClass('glyphicon-folder-open');
+        $("#" + param).children(".children").children().remove();
+
+
+    });
+
+
+
 
     $(document).on("click", ".rename-node", function (e) {
         $('input[name=id]').val($(e.currentTarget).parent().attr("node-id"));
@@ -74,7 +100,7 @@ $(document).ready(function() {
             success: function (data) {
                 if (data == true)
                 {
-                    
+                    $("#" + +object.id).children(".node-name").text(object.name);
                 }else {
                     alert("Error");
                 }
@@ -85,6 +111,7 @@ $(document).ready(function() {
 });
 
     function form_to_json(selector) {
+
         var ary = $(selector).serializeArray();
         var obj = {};
         for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
@@ -94,8 +121,10 @@ $(document).ready(function() {
 
     function format(id, name, parentId) {
         var result =
-            '<li class = "close-catalog" id=' + id + '>' +
-             name +
+            '<li id=' + id + '>' +
+            '<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>' +
+            '<span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>' +
+            '<span class="node-name">' + name  + '</span>' +
             '<div class = "dropdown" >' +
             '<a href = "#" class = "dropdown-toggle-js" data-toggle = "dropdown" >' +
             'Edit' +
@@ -103,10 +132,12 @@ $(document).ready(function() {
             '</a>' +
             '<ul class = "dropdown-menu" ' + 'node-id=' + '"' + id + '"' + ' node-name=' + '"' + name + '"' + ' node-parentId = ' + '"' + parentId + '"' + '>' +
             '<li> <a href = "#" class = "btn btn-lg btn-success" data-toggle = "modal" data-target = "#basicModal" data-id> Add </a> </li>' +
-            '<li> <a href = "#"> Rename </a> </li>' +
+            '<li class="rename-node"> <a href = "#" class = "btn btn-lg btn-success" data-toggle = "modal" data-target ="#basicRenameModal"> Rename </a> </li>' +
             '<li class="delete-node"> <a href = "#"> Delete </a> </li>' +
             '</ul>' +
             '</div>' +
+            '<ul class="children">' +
+            '</ul>' +
             '</li>';
         return result;
     }
