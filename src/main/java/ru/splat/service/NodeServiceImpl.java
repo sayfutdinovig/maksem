@@ -46,4 +46,10 @@ public class NodeServiceImpl implements NodeService
     {
         return nodeDAO.renameNode(node);
     }
+
+    @Override
+    public boolean moveNode(long id, long parentId)
+    {
+        return nodeDAO.moveNode(id, parentId);
+    }
 }

@@ -3,9 +3,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<script src="<c:url value="/resources/js/jquery-3.2.1.min.js"/>" type="text/javascript"></script>
-<script src="<c:url value="/resources/js/bootstrap.js"/>" type="text/javascript"></script>
-<script src="<c:url value="/resources/js/app.js"/>" type="text/javascript"></script>
+<script defer src="<c:url value="/resources/js/jquery-3.2.1.min.js"/>" type="text/javascript"></script>
+<script defer src="<c:url value="/resources/js/bootstrap.js"/>" type="text/javascript"></script>
+<script defer src="<c:url value="/resources/js/dragAndDrop.js"/>" type="text/javascript"></script>
+<script defer src="<c:url value="/resources/js/app.js"/>" type="text/javascript"></script>
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/style.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bootstrap.css"/>">
@@ -17,8 +18,8 @@
   </head>
   <body>
 
- <ul id="root">
-     <li id="${root.id}">
+  <ul>
+     <li id="${root.id}" class="root li-element" ondrop="drop(event, this)" ondragover="allowDrop(event)">
          <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
          <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
          <span class="node-name"> ${root.name} </span>

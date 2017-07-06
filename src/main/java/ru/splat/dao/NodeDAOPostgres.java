@@ -84,4 +84,12 @@ public class NodeDAOPostgres implements NodeDAO
         final String sql = "UPDATE node SET name = ? WHERE id = ? ";
         return (jdbcTemplate.update(sql, node.getName(), node.getId()) > 0);
     }
+
+
+    @Override
+    public boolean moveNode(long id, long parentId)
+    {
+        final String sql = "UPDATE node SET parent_id = ? WHERE id = ? ";
+        return (jdbcTemplate.update(sql, parentId, id) > 0);
+    }
 }

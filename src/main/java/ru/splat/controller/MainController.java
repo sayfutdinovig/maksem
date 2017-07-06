@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.splat.model.Node;
 import ru.splat.service.NodeService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -33,6 +34,13 @@ public class MainController {
     }
 
 
+    @PostMapping(value = "/move_node")
+    public @ResponseBody boolean deleteNodes(@RequestParam("id") final long id, @RequestParam("parentId") final long parentId)
+    {
+        return nodeService.moveNode(id, parentId);
+    }
+
+
     @GetMapping("/node")
     public @ResponseBody List<Node> getChildNodes(@RequestParam("id") final long id)
     {
@@ -41,7 +49,7 @@ public class MainController {
 
 
     @PostMapping("/node")
-    public @ResponseBody long addNode(@RequestBody final Node node)
+    public @ResponseBody long addNode(@RequestBody @Valid final Node node)
     {
         return nodeService.addNode(node);
     }

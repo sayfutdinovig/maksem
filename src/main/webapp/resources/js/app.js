@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+    var blue = $('.root').attr("id");
 
     $(".dropdown-toggle-js").dropdown();
 
@@ -29,18 +30,39 @@ $(document).ready(function() {
     $(document).on("click", ".glyphicon-menu-right", function (e) {
 
         var param = $(e.currentTarget).parent().attr("id");
+        addSpiner(param);
         $.ajax({
             type: "GET",
             url: "/node",
             data:{id:param},
             success: function (data) {
-                data.forEach(function(item, i, arr) {
-                    $("#" + param).children(".glyphicon-menu-right").addClass('glyphicon-menu-down');
-                    $("#" + param).children(".glyphicon-menu-right").removeClass('glyphicon-menu-right');
-                    $("#" + param).children(".glyphicon-folder-close").addClass('glyphicon-folder-open');
-                    $("#" + param).children(".glyphicon-folder-close").removeClass('glyphicon-folder-close');
-                    $("#" + param).children(".children").append(format(item.id, item.name, item.parentId));
-                })
+
+                $("#" + blue).children('.node-name').removeClass('blue');
+                blue = param;
+                $("#" + blue).children('.node-name').addClass('blue');
+                $("#" + param).children(".glyphicon-menu-right").addClass('unvisible');
+
+
+                setTimeout(function () {
+
+                    data.forEach(function(item, i, arr) {
+                        $("#" + param).children(".glyphicon-menu-right").addClass('glyphicon-menu-down');
+                        $("#" + param).children(".glyphicon-menu-right").removeClass('glyphicon-menu-right');
+                        $("#" + param).children(".glyphicon-folder-close").addClass('glyphicon-folder-open');
+                        $("#" + param).children(".glyphicon-folder-close").removeClass('glyphicon-folder-close');
+                        $("#" + param).children(".children").append(format(item.id, item.name, item.parentId));
+                    });
+
+                    deleteSpinner(param);
+                    if (data.length){
+                        $("#" + param).children(".glyphicon-menu-down").removeClass('unvisible');
+                    }
+                    else {
+                        $("#" + param).children(".glyphicon-menu-right").removeClass('unvisible');
+                        alert("Folder is empty");
+                    }
+
+                }, 2000)
             }
         });
 
@@ -48,16 +70,17 @@ $(document).ready(function() {
 
 
     $(document).on("click", ".glyphicon-menu-down", function (e) {
-
         var param = $(e.currentTarget).parent().attr("id");
+
+        $("#" + blue).children('.node-name').removeClass('blue');
+        blue = param;
+        $("#" + blue).children('.node-name').addClass('blue');
 
         $("#" + param).children(".glyphicon-menu-down").addClass('glyphicon-menu-right');
         $("#" + param).children(".glyphicon-menu-down").removeClass('glyphicon-menu-down');
         $("#" + param).children(".glyphicon-folder-open").addClass('glyphicon-folder-close');
         $("#" + param).children(".glyphicon-folder-open").removeClass('glyphicon-folder-open');
         $("#" + param).children(".children").children().remove();
-
-
     });
 
 
@@ -121,7 +144,7 @@ $(document).ready(function() {
 
     function format(id, name, parentId) {
         var result =
-            '<li id=' + id + '>' +
+            '<li id=' + id + ' draggable="true" class="li-element" ondragstart="drag(event)" ondrop="drop(event, this)" ondragover="allowDrop(event)">' +
             '<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>' +
             '<span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>' +
             '<span class="node-name">' + name  + '</span>' +
@@ -136,8 +159,17 @@ $(document).ready(function() {
             '<li class="delete-node"> <a href = "#"> Delete </a> </li>' +
             '</ul>' +
             '</div>' +
-            '<ul class="children">' +
+            '<ul class="children" >' +
             '</ul>' +
             '</li>';
         return result;
+    }
+
+    function addSpiner(id){
+        var spiner = '<div class="page-preloader"><span class="spinner"></span></div>';
+        $("#"+id).prepend(spiner);
+    }
+
+    function deleteSpinner(id){
+        $("#"+id).children('.page-preloader').remove();
     }

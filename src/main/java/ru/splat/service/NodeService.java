@@ -20,4 +20,7 @@ public interface NodeService
 
 
     boolean renameNode(final Node node);
+
+
+    boolean moveNode(final long id, final long parentId);
 }

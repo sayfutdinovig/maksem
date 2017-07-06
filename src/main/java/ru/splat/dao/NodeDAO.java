@@ -20,4 +20,7 @@ public interface NodeDAO
 
 
     boolean renameNode(final Node node);
+
+
+    public boolean moveNode(long id, long parentId);
 }
