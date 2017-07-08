@@ -20,7 +20,7 @@
 
   <ul>
      <li id="${root.id}" class="root li-element" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-         <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+         <span class="arrow glyphicon glyphicon-menu-right" aria-hidden="true"></span>
          <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
          <span class="node-name"> ${root.name} </span>
          <div class = "dropdown" >

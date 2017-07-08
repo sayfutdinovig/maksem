@@ -27,9 +27,10 @@ $(document).ready(function() {
 
     });
 
-    $(document).on("click", ".glyphicon-menu-right", function (e) {
+    $(document).on("click", ".arrow", function (e) {
 
         var param = $(e.currentTarget).parent().attr("id");
+        $("#" + param).children(".arrow").removeClass('arrow');
         addSpiner(param);
         $.ajax({
             type: "GET",
@@ -59,10 +60,14 @@ $(document).ready(function() {
                     }
                     else {
                         $("#" + param).children(".glyphicon-menu-right").removeClass('unvisible');
+                        $("#" + param).children(".glyphicon-menu-right").addClass('arrow');
                         alert("Folder is empty");
                     }
 
                 }, 2000)
+            },
+            error: function () {
+                $("#" + param).children(".glyphicon-menu-right").addClass('arrow');
             }
         });
 
@@ -81,6 +86,7 @@ $(document).ready(function() {
         $("#" + param).children(".glyphicon-folder-open").addClass('glyphicon-folder-close');
         $("#" + param).children(".glyphicon-folder-open").removeClass('glyphicon-folder-open');
         $("#" + param).children(".children").children().remove();
+        $("#" + param).children(".glyphicon-menu-right").addClass('arrow');
     });
 
 
@@ -144,9 +150,9 @@ $(document).ready(function() {
 
     function format(id, name, parentId) {
         var result =
-            '<li id=' + id + ' draggable="true" class="li-element" ondragstart="drag(event)" ondrop="drop(event, this)" ondragover="allowDrop(event)">' +
-            '<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>' +
-            '<span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>' +
+            '<li id=' + id + ' class="li-element" draggable="true" ondragstart="drag(event)">' +
+            '<span class="arrow glyphicon glyphicon-menu-right" aria-hidden="true" ></span>' +
+            '<span class="glyphicon glyphicon-folder-close" aria-hidden="true" ondrop="drop(event, this)" ondragover="allowDrop(event)"></span>' +
             '<span class="node-name">' + name  + '</span>' +
             '<div class = "dropdown" >' +
             '<a href = "#" class = "dropdown-toggle-js" data-toggle = "dropdown" >' +

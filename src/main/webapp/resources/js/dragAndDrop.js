@@ -6,7 +6,7 @@ function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
-function drop(ev, self) {
+function drop(ev, folder) {
     ev.preventDefault();
     ev.stopPropagation();
 
@@ -16,8 +16,9 @@ function drop(ev, self) {
     // добавить ajax отправлять movedObjId и self.id
 
 
-
-    if ($movedObj.find('#' + self.id).length || self.id == movedObjId) {
+    var self = $(folder).parent();
+    var selfId = self.attr("id");
+    if ($movedObj.find('#' + selfId).length || selfId == movedObjId) {
         alert('Так нельзя :)');
         return;
     }
@@ -25,19 +26,16 @@ function drop(ev, self) {
     $.ajax({
         type: "POST",
         url: "/move_node",
-        data: {id: movedObjId,parentId: self.id},
+        data: {id: movedObjId,parentId: selfId},
         success: function (data) {
             if (data == true) {
-                // if (ev.target.className == 'li-element') {
-                //     $('#' + ev.target.id).children(".children").append($movedObj);
-                // } else {
-                   if ($("#"+self.id).children(".glyphicon-menu-down").length > 0) {
+
+                   if ($("#"+selfId).children(".glyphicon-menu-down").length > 0) {
                        $(self).children(".children").append($movedObj);
                    }
                    else {
                        $movedObj.remove();
                    }
-                // }
             }
         }
     });
