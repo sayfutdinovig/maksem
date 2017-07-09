@@ -1,22 +1,12 @@
 package ru.splat.model;
 
 
-import com.sun.istack.internal.NotNull;
-import org.hibernate.validator.constraints.NotBlank;
-
-import javax.validation.constraints.Size;
-
-
 public class Node
 {
-    @NotNull
     private Long id;
 
-    @NotNull
     private Long parentId;
 
-    @NotBlank
-    @Size(max = 255)
     private String name;
 
 

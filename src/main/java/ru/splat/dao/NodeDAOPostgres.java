@@ -1,28 +1,23 @@
 package ru.splat.dao;
 
-
-import jdk.jfr.events.ThrowablesEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.transaction.annotation.Transactional;
-import ru.splat.model.Node;
-
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collections;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.transaction.annotation.Transactional;
+
+import ru.splat.model.Node;
 
 
 public class NodeDAOPostgres implements NodeDAO
 {
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     final RowMapper<Node> rm = (rs, rowNum) ->
     {
@@ -53,7 +48,7 @@ public class NodeDAOPostgres implements NodeDAO
 
 
     @Override
-    public long addNode(Node node)
+    public long addNode(final Node node)
     {
         final String sql = "INSERT INTO node (name, parent_id) VALUES (?, ?) ";
         final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -68,15 +63,17 @@ public class NodeDAOPostgres implements NodeDAO
         return (long) keyHolder.getKeys().get("id");
     }
 
+
     @Override
     @Transactional
-    public boolean deleteNodes(int id)
+    public boolean deleteNodes(final int id)
     {
         final String delete = "UPDATE node SET parent_id = -1 WHERE id = ? ";
         final String insert = "INSERT INTO delete_nodes (id) VALUES (?) ";
         if (jdbcTemplate.update(delete, id) < 1) return false;
         return (jdbcTemplate.update(insert, id) > 0);
     }
+
 
     @Override
     public boolean renameNode(final Node node)
@@ -87,7 +84,7 @@ public class NodeDAOPostgres implements NodeDAO
 
 
     @Override
-    public boolean moveNode(long id, long parentId)
+    public boolean moveNode(final long id, final long parentId)
     {
         final String sql = "UPDATE node SET parent_id = ? WHERE id = ? ";
         return (jdbcTemplate.update(sql, parentId, id) > 0);

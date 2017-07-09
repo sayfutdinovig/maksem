@@ -1,15 +1,14 @@
 package ru.splat.controller;
 
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import ru.splat.model.Node;
 import ru.splat.service.NodeService;
-
-import javax.validation.Valid;
-import java.util.List;
 
 
 @Controller
@@ -21,11 +20,12 @@ public class MainController {
 
 
     @GetMapping(value = "/")
-    public String getMainPage(Model model)
+    public String getMainPage(final Model model)
     {
         model.addAttribute("root", nodeService.getRoot());
         return "index";
     }
+
 
     @GetMapping(value = "/root")
     public @ResponseBody Node getRoot()
@@ -49,7 +49,7 @@ public class MainController {
 
 
     @PostMapping("/node")
-    public @ResponseBody long addNode(@RequestBody @Valid final Node node)
+    public @ResponseBody long addNode(@RequestBody final Node node)
     {
         return nodeService.addNode(node);
     }
@@ -65,7 +65,6 @@ public class MainController {
     @PostMapping("/rename_node")
     public @ResponseBody boolean renameNode(@RequestBody final Node node)
     {
-        System.out.println(node);
         return nodeService.renameNode(node);
     }
 }

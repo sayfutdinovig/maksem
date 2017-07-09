@@ -1,9 +1,8 @@
 package ru.splat.dao;
 
+import java.util.List;
 
 import ru.splat.model.Node;
-
-import java.util.List;
 
 public interface NodeDAO
 {
@@ -22,5 +21,5 @@ public interface NodeDAO
     boolean renameNode(final Node node);
 
 
-    public boolean moveNode(long id, long parentId);
+    boolean moveNode(long id, long parentId);
 }

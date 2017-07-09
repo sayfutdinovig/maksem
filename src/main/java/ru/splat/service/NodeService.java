@@ -1,9 +1,8 @@
 package ru.splat.service;
 
+import java.util.List;
 
 import ru.splat.model.Node;
-
-import java.util.List;
 
 public interface NodeService
 {

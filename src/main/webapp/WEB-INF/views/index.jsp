@@ -23,15 +23,14 @@
          <span class="arrow glyphicon glyphicon-menu-right" aria-hidden="true"></span>
          <span class="glyphicon glyphicon-folder-close" aria-hidden="true" ondrop="drop(event, this)" ondragover="allowDrop(event)"></span>
          <span class="node-name"> ${root.name} </span>
-         <div class = "dropdown" >
+         <div class = "dropdown switch" >
              <a href = "#" class = "dropdown-toggle-js" data-toggle = "dropdown" >
                  Edit
-                 <b class = "caret" > </b>
+                 <b class = "caret"> </b>
              </a>
              <ul class = "dropdown-menu" node-id="${root.id}" node-name="${root.name}" node-parentId="${root.parentId}">
                  <li class="add-node"> <a href = "#" class = "" data-toggle = "modal" data-target = "#basicModal"> Add </a> </li>
                  <li class="rename-node"> <a href = "#" class = "" data-toggle = "modal" data-target ="#basicRenameModal"> Rename </a> </li>
-
              </ul>
          </div>
          <ul class="children">
