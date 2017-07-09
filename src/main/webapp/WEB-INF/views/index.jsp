@@ -19,9 +19,9 @@
   <body>
 
   <ul>
-     <li id="${root.id}" class="root li-element" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+     <li id="${root.id}" class="root li-element">
          <span class="arrow glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-         <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
+         <span class="glyphicon glyphicon-folder-close" aria-hidden="true" ondrop="drop(event, this)" ondragover="allowDrop(event)"></span>
          <span class="node-name"> ${root.name} </span>
          <div class = "dropdown" >
              <a href = "#" class = "dropdown-toggle-js" data-toggle = "dropdown" >

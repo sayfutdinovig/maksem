@@ -1,11 +1,12 @@
 package ru.splat.service;
 
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import ru.splat.dao.NodeDAO;
 import ru.splat.model.Node;
 
-import java.util.List;
 
 public class NodeServiceImpl implements NodeService
 {

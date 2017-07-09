@@ -5,7 +5,7 @@ $(document).ready(function() {
     $(".dropdown-toggle-js").dropdown();
 
     $(document).on("submit", ".form-add", function (e) {
-        var object = form_to_json($(this));
+        var object = form_to_object($(this));
         console.log(JSON.stringify(object));
         e.preventDefault();
         $.ajax({
@@ -117,7 +117,7 @@ $(document).ready(function() {
 
 
     $(document).on("submit", ".form-rename", function (e) {
-        var object = form_to_json($(this));
+        var object = form_to_object($(this));
         console.log(JSON.stringify(object));
         e.preventDefault();
         $.ajax({
@@ -139,7 +139,7 @@ $(document).ready(function() {
     });
 });
 
-    function form_to_json(selector) {
+    function form_to_object(selector) {
 
         var ary = $(selector).serializeArray();
         var obj = {};
