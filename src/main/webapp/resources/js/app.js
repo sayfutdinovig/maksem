@@ -1,12 +1,10 @@
 $(document).ready(function() {
 
     var blue = $('.root').attr("id");
-
     $(".dropdown-toggle-js").dropdown();
 
     $(document).on("submit", ".form-add", function (e) {
         var object = form_to_object($(this));
-        console.log(JSON.stringify(object));
         e.preventDefault();
         $.ajax({
             type: "POST",
@@ -15,8 +13,10 @@ $(document).ready(function() {
             data: JSON.stringify(object),
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                if ($("#" + object.id).children(".children").find('li').length > 0) {
-                    $("#" + object.id).children(".children").append(format(data, object.name, object.parentId));
+                var parentNode = $("#" + object.id);
+
+                if (parentNode.children(".glyphicon-menu-down").length > 0) {
+                    parentNode.children(".children").append(format(data, object.name, object.parentId));
                 }
             }
         });
@@ -30,7 +30,8 @@ $(document).ready(function() {
     $(document).on("click", ".arrow", function (e) {
 
         var param = $(e.currentTarget).parent().attr("id");
-        $("#" + param).children(".arrow").removeClass('arrow');
+        var selectedObject =  $("#" + param);
+        selectedObject.children(".arrow").removeClass('arrow');
         addSpiner(param);
         $.ajax({
             type: "GET",
@@ -38,36 +39,31 @@ $(document).ready(function() {
             data:{id:param},
             success: function (data) {
 
+
                 $("#" + blue).children('.node-name').removeClass('blue');
                 blue = param;
-                $("#" + blue).children('.node-name').addClass('blue');
-                $("#" + param).children(".glyphicon-menu-right").addClass('unvisible');
+                selectedObject.children('.node-name').addClass('blue');
+                selectedObject.children(".glyphicon-menu-right").addClass('unvisible');
 
 
                 setTimeout(function () {
 
+                    selectedObject.children(".glyphicon-menu-right").addClass('glyphicon-menu-down');
+                    selectedObject.children(".glyphicon-menu-right").removeClass('glyphicon-menu-right');
+                    selectedObject.children(".glyphicon-folder-close").addClass('glyphicon-folder-open');
+                    selectedObject.children(".glyphicon-folder-close").removeClass('glyphicon-folder-close');
+
                     data.forEach(function(item, i, arr) {
-                        $("#" + param).children(".glyphicon-menu-right").addClass('glyphicon-menu-down');
-                        $("#" + param).children(".glyphicon-menu-right").removeClass('glyphicon-menu-right');
-                        $("#" + param).children(".glyphicon-folder-close").addClass('glyphicon-folder-open');
-                        $("#" + param).children(".glyphicon-folder-close").removeClass('glyphicon-folder-close');
-                        $("#" + param).children(".children").append(format(item.id, item.name, item.parentId));
+                        selectedObject.children(".children").append(format(item.id, item.name, item.parentId));
                     });
 
                     deleteSpinner(param);
-                    if (data.length){
-                        $("#" + param).children(".glyphicon-menu-down").removeClass('unvisible');
-                    }
-                    else {
-                        $("#" + param).children(".glyphicon-menu-right").removeClass('unvisible');
-                        $("#" + param).children(".glyphicon-menu-right").addClass('arrow');
-                        alert("Folder is empty");
-                    }
+                    selectedObject.children(".glyphicon-menu-down").removeClass('unvisible');
 
                 }, 2000)
             },
             error: function () {
-                $("#" + param).children(".glyphicon-menu-right").addClass('arrow');
+                selectedObject.children(".glyphicon-menu-right").addClass('arrow');
             }
         });
 
@@ -76,17 +72,18 @@ $(document).ready(function() {
 
     $(document).on("click", ".glyphicon-menu-down", function (e) {
         var param = $(e.currentTarget).parent().attr("id");
+        var selectedObject =  $("#" + param);
 
         $("#" + blue).children('.node-name').removeClass('blue');
         blue = param;
-        $("#" + blue).children('.node-name').addClass('blue');
+        selectedObject.children('.node-name').addClass('blue');
 
-        $("#" + param).children(".glyphicon-menu-down").addClass('glyphicon-menu-right');
-        $("#" + param).children(".glyphicon-menu-down").removeClass('glyphicon-menu-down');
-        $("#" + param).children(".glyphicon-folder-open").addClass('glyphicon-folder-close');
-        $("#" + param).children(".glyphicon-folder-open").removeClass('glyphicon-folder-open');
-        $("#" + param).children(".children").children().remove();
-        $("#" + param).children(".glyphicon-menu-right").addClass('arrow');
+        selectedObject.children(".glyphicon-menu-down").addClass('glyphicon-menu-right');
+        selectedObject.children(".glyphicon-menu-down").removeClass('glyphicon-menu-down');
+        selectedObject.children(".glyphicon-folder-open").addClass('glyphicon-folder-close');
+        selectedObject.children(".glyphicon-folder-open").removeClass('glyphicon-folder-open');
+        selectedObject.children(".children").children().remove();
+        selectedObject.children(".glyphicon-menu-right").addClass('arrow');
     });
 
 
@@ -118,7 +115,7 @@ $(document).ready(function() {
 
     $(document).on("submit", ".form-rename", function (e) {
         var object = form_to_object($(this));
-        console.log(JSON.stringify(object));
+
         e.preventDefault();
         $.ajax({
             type: "POST",
@@ -133,14 +130,12 @@ $(document).ready(function() {
                 }else {
                     alert("Error");
                 }
-               // $("#"+object.id).append(format(data, object.name, object.parentId));
             }
         });
     });
 });
 
     function form_to_object(selector) {
-
         var ary = $(selector).serializeArray();
         var obj = {};
         for (var a = 0; a < ary.length; a++) obj[ary[a].name] = ary[a].value;
@@ -160,8 +155,8 @@ $(document).ready(function() {
             '<b class = "caret" > </b>' +
             '</a>' +
             '<ul class = "dropdown-menu" ' + 'node-id=' + '"' + id + '"' + ' node-name=' + '"' + name + '"' + ' node-parentId = ' + '"' + parentId + '"' + '>' +
-            '<li> <a href = "#" class = "btn btn-lg btn-success" data-toggle = "modal" data-target = "#basicModal" data-id> Add </a> </li>' +
-            '<li class="rename-node"> <a href = "#" class = "btn btn-lg btn-success" data-toggle = "modal" data-target ="#basicRenameModal"> Rename </a> </li>' +
+            '<li> <a href = "#" data-toggle = "modal" data-target = "#basicModal" data-id> Add </a> </li>' +
+            '<li class="rename-node"> <a href = "#" data-toggle = "modal" data-target ="#basicRenameModal"> Rename </a> </li>' +
             '<li class="delete-node"> <a href = "#"> Delete </a> </li>' +
             '</ul>' +
             '</div>' +

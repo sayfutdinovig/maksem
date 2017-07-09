@@ -29,8 +29,8 @@
                  <b class = "caret" > </b>
              </a>
              <ul class = "dropdown-menu" node-id="${root.id}" node-name="${root.name}" node-parentId="${root.parentId}">
-                 <li class="add-node"> <a href = "#" class = "btn btn-lg btn-success" data-toggle = "modal" data-target = "#basicModal"> Add </a> </li>
-                 <li class="rename-node"> <a href = "#" class = "btn btn-lg btn-success" data-toggle = "modal" data-target ="#basicRenameModal"> Rename </a> </li>
+                 <li class="add-node"> <a href = "#" class = "" data-toggle = "modal" data-target = "#basicModal"> Add </a> </li>
+                 <li class="rename-node"> <a href = "#" class = "" data-toggle = "modal" data-target ="#basicRenameModal"> Rename </a> </li>
 
              </ul>
          </div>
@@ -44,12 +44,12 @@
         <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-body">
-        <h3>Please write </h3>
+        <h3>Add new folder</h3>
     </div>
 
 
     <form class="form-add">
-        <input name="name" type="text" required/>
+        <input name="name" type="text" class="form-control" required/>
         <input name="id" type="hidden" value ="" />
 
         <div class="modal-footer">
@@ -65,13 +65,13 @@
  <div class="modal fade" id="basicRenameModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
      <div class="modal-dialog">
          <div class="modal-content">
-             <div class="modal-body">
-                 <h3>Please write </h3>
+             <div class="modal-body text-center">
+                 <h3>Rename folder</h3>
              </div>
 
 
              <form class="form-rename">
-                 <input name="name" type="text" value="" required/>
+                 <input name="name" class="form-control" type="text" value="" required/>
                  <input name="id" type="hidden" value ="" />
 
                  <div class="modal-footer">

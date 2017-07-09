@@ -13,9 +13,6 @@ function drop(ev, folder) {
     var movedObjId = ev.dataTransfer.getData("text");
     var $movedObj = $('#' + movedObjId);
 
-    // добавить ajax отправлять movedObjId и self.id
-
-
     var self = $(folder).parent();
     var selfId = self.attr("id");
     if ($movedObj.find('#' + selfId).length || selfId == movedObjId) {
@@ -29,7 +26,6 @@ function drop(ev, folder) {
         data: {id: movedObjId,parentId: selfId},
         success: function (data) {
             if (data == true) {
-
                    if ($("#"+selfId).children(".glyphicon-menu-down").length > 0) {
                        $(self).children(".children").append($movedObj);
                    }
@@ -39,6 +35,4 @@ function drop(ev, folder) {
             }
         }
     });
-
-
 }
